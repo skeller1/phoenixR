@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content="phoenixR, Stephan Keller" />
+    <title>phoenixR Backend</title>
+    <%= csrf_meta_tags %>
+    <%= base_tag %>
+    <%= ext %>
+    <%= javascript_include_tag "/direct_api" %>
+
+    <script type="text/javascript">
+      Ext.Direct.addProvider(REMOTING_API);
+    </script>
+
+    <%= javascript_include_tag "typo3/backend/backend" %>
+    <%= stylesheet_link_tag "typo3/backend/backend" %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>
