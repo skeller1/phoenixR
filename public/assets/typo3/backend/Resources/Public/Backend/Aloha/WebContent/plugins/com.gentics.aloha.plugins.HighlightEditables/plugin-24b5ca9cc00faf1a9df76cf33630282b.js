@@ -1,0 +1,7 @@
+/*!
+* Aloha Editor
+* Author & Copyright (c) 2010 Gentics Software GmbH
+* aloha-sales@gentics.com
+* Licensed unter the terms of http://www.aloha-editor.com/license.html
+*/
+GENTICS.Aloha.HighlightEditables=new GENTICS.Aloha.Plugin("com.gentics.aloha.plugins.highlighteditables"),GENTICS.Aloha.HighlightEditables.init=function(){var a=this;GENTICS.Utils.Position.addMouseMoveCallback(function(){for(var a=0;a<GENTICS.Aloha.editables.length;a++){var b=GENTICS.Aloha.editables[a];!GENTICS.Aloha.activeEditable&&!b.isDisabled()&&b.obj.addClass("GENTICS_editable_highlight")}}),GENTICS.Utils.Position.addMouseStopCallback(function(){a.fade()}),GENTICS.Aloha.EventRegistry.subscribe(GENTICS.Aloha,"editableActivated",function(b,c){c.editable.obj.addClass("GENTICS_editable_active"),a.fade()}),GENTICS.Aloha.EventRegistry.subscribe(GENTICS.Aloha,"editableDeactivated",function(a,b){b.editable.obj.removeClass("GENTICS_editable_active")})},GENTICS.Aloha.HighlightEditables.fade=function(){for(var a=0;a<GENTICS.Aloha.editables.length;a++){var b=GENTICS.Aloha.editables[a].obj;b.hasClass("GENTICS_editable_highlight")&&b.removeClass("GENTICS_editable_highlight").css("outline","5px solid #FFE767").animate({outlineWidth:"0px"},300,"swing",function(){jQuery(this).css("outline","")})}}

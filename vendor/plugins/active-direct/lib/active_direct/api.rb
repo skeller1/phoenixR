@@ -20,7 +20,7 @@ module ActiveDirect
         'type'      =>   'remoting',
         'actions'   =>   Config.method_config,
         'namespace' =>   'App.models',
-        'srv_env'   =>    RAILS_ENV
+        'srv_env'   =>    Rails.env
       }
       "REMOTING_API = #{config.to_json};"
     end

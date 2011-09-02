@@ -32,8 +32,8 @@ module ActiveDirect
     end
 
     def self.model_directories
-      if defined?(RAILS_ROOT)
-        ["#{RAILS_ROOT}/app/models/"]
+      if defined?(Rails.root)
+        ["#{Rails.root}/app/models/"]
       else
         []
       end

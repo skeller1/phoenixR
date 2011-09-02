@@ -34,8 +34,23 @@ HERE
     return output.html_safe
   end
 
-  def ext_direct_provider
-    
+  def ext_direct_provider(namespace)
+    provider_config = {
+			'url' => '?F3_ExtJS_ExtDirectRequest=1',
+			'type' => 'remoting',
+			'namespace' => namespace,
+			'actions' => {}
+    }
+
+    controller_match = Rails.root.join('app', 'controllers','**', '*.rb')
+    controller_files=Dir.glob(domain_match)
+
+
+    controller_files.each do |f|
+      controller_name = File.basename(f,'.rb').capitalize
+    end
+
+    #return 'Ext.Direct.addProvider(' . json_encode($providerConfig) . ');' . chr(10);
   end
 
   private

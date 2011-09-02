@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-PhoenixR::Application.config.secret_token = '5cc12a2a4b06197c76746fae4df4beb63fe8ddf2359b2eda79f17dd0046e0060436bdf492ad7ef889a5956a4a3108eb480c4be9ab0a1be4974a02923e2acdb8d'
+PhoenixR::Application.config.secret_token = '85148eb62944efa5fb4d761ea58b72daaf73e36be7e7777833a53363122b11dd592579b17cd73cbe3a62a4e00d02ccb10f7475e39403c13a0cbbfc91110bd19d'
