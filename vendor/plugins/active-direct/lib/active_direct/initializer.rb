@@ -10,18 +10,35 @@ module ActiveDirect
       return if defined?(Rails) && Rails.configuration.cache_classes
 
       self.model_directories.each do |base|
-        Dir["#{base}**/*.rb"].each do |file|
-          model_name = file.gsub(/^#{base}([\w_\/\\]+)\.rb/, '\1')
-
+        path = "#{Rails.root}/#{base}/**/*.rb"
+        Dir[path].each do |file|
+          model_name = File.basename(file,'.rb')
           next if model_name.nil?
-          next if ::ActiveRecord::Base.send(:subclasses).detect { |model|
-            model.name == model_name
-          }
-
           begin
             model_name.camelize.constantize
           rescue LoadError
-            model_name.gsub!(/.*[\/\\]/, '').nil? ? next : retry
+             next
+          rescue NameError
+            next
+          rescue StandardError
+            puts "Warning: Error loading #{file}"
+          end
+        end
+      end
+    end
+
+     def self.load_controllers
+      return if defined?(Rails) && Rails.configuration.cache_classes
+
+      self.controller_directories.each do |base|
+        path = "#{Rails.root}/#{base}/**/*.rb"
+        Dir[path].each do |file|
+          controller_name = File.basename(file,'.rb')
+          next if controller_name.nil?
+          begin
+            controller_name.camelize.constantize
+          rescue LoadError
+             next
           rescue NameError
             next
           rescue StandardError
@@ -33,7 +50,15 @@ module ActiveDirect
 
     def self.model_directories
       if defined?(Rails.root)
-        ["#{Rails.root}/app/models/"]
+        Rails.application.paths["app/models"]
+      else
+        []
+      end
+    end
+
+    def self.controller_directories
+      if defined?(Rails.root)
+        Rails.application.paths["app/controllers"]
       else
         []
       end
@@ -45,5 +70,6 @@ end
 if defined?(Rails) && Rails.configuration
   Rails.configuration.after_initialize do
     ActiveDirect::Initializer.load_models
+    #ActiveDirect::Initializer.load_controllers
   end
 end

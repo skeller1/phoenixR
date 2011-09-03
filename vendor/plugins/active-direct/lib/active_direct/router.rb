@@ -7,14 +7,14 @@ module ActiveDirect
     end
 
 
-   def call(env)
+    def call(env)
       @env = env
       if env["PATH_INFO"].match("^#{@router_path}")
-        @post_data = get_post_data
-        result = process_rpc
-        [200, { "Content-Type" => "text/plain"}, ["#{result}"]]
 
-        #[200, { "Content-Type" => "text/plain"},["#{Config.method_config}"]]
+        result= form_post? ? process_form_rpc : process_rpc
+
+        [200, { "Content-Type" => "text/plain"}, [result]]
+
       else
         @app.call(@env)
       end
@@ -22,38 +22,69 @@ module ActiveDirect
 
 
     def process_rpc
+      p "started normal raw http rpc"
       resp = []
+      get_raw_http.each do |req|
 
-      parse(@post_data).each do |req|
-
-        action = req.delete('extAction') || req.delete('action')
-        method = req.delete('extMethod') || req.delete('method')
-        data = req.delete('data')
-        tid = req.delete('extTid') || req.delete('tid')
+        action = req['action']
+        method = req['method']
+        data = req['data']
+        tid = req['tid']
 
         resp << invoke_method(action, method, data, tid)
       end
+
       resp.to_json
     end
 
-    def invoke_method(model, method, parameters, tid)
+    def process_rpc2
+      p "started normal raw http rpc"
+      resp = []
+
+
+      @post_data.each do |req|
+
+        action = req['extAction'] || req['action']
+        method = req['extMethod'] || req['method']
+        data = req['data'] || {}
+        tid = req['extTID'] || req['tid']
+
+
+        resp << action
+        resp << method
+        resp << data
+        resp << tid
+
+
+        #resp << invoke_method(action, method, data, tid)
+      end
+
+      #form_post must implemented by form_and_upload?
+      if form_post?
+        "<html><body><textarea>#{resp.to_json}</textarea></body></html>"
+      else
+        resp.to_json
+      end
+    end
+
+    def invoke_method(action, method, parameters, tid)
       result = {
         'type'    =>    'rpc',
         'tid'     =>    tid,
-        'action'  =>    model,
+        'action'  =>    action,
         'method'  =>    method
       }
-      if(!Config.has_model?(model))
+      if(!Config.has_model?(action))
         raise "Invalid Model."
       end
 
-      if(!Config.has_method?(model, method))
-        raise "Invalid method:#{method} called on model:#{model}."
+      if(!Config.has_method?(action, method))
+        raise "Invalid method:#{method} called on model:#{action}."
       end
       unless parameters.nil?
-        return_val = model.constantize.send(method, *normalize_params_for(model,parameters))
+        return_val = action.constantize.send(method, *normalize_params_for(action,parameters))
       else
-        return_val = model.constantize.send(method)
+        return_val = action.constantize.send(method)
       end
       result['result'] = return_val.nil? ?  "" : return_val
     rescue => e
@@ -66,7 +97,7 @@ module ActiveDirect
 
     private
 
-    def normalize_params_for(model, params)
+    def normalize_params_for(action, params)
       #if raw_post?
 			#	params = params.map {|p| Hash === p ? p.symbolize_keys : p }
       #  return params
@@ -81,13 +112,20 @@ module ActiveDirect
       #end
     end
 
-    def get_post_data
+  
+    def get_raw_http
       params_key = @env["action_controller.request.request_parameters"] ? "action_controller.request.request_parameters" : "action_dispatch.request.request_parameters"
-      @env[params_key]
+      parse @env[params_key]
     end
+    
 
     def parse(data)
         return (data["_json"]) ? data["_json"] : [data]
+    end
+
+
+    def form_post?
+      @env['rack.request.form_hash']
     end
 
   end
