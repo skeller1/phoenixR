@@ -12,12 +12,12 @@ module ActiveDirect
 
     module ClassMethods
       def acts_as_direct(direct_methods={})
-        Config.method_config[self.to_s].clear
+        Config.model_config[self.to_s].clear
         direct_methods.stringify_keys!.merge!(DEFAULT_METHODS).each do |mtd, mcfg|
           if mcfg.is_a?(Hash)
-            Config.method_config[self.to_s] << {'name' => mtd}.merge!(mcfg)
+            Config.model_config[self.to_s] << {'name' => mtd}.merge!(mcfg)
           else
-            Config.method_config[self.to_s] << { 'name' => mtd, 'len' => mcfg }
+            Config.model_config[self.to_s] << { 'name' => mtd, 'len' => mcfg }
           end
         end
       rescue => ex

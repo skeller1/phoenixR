@@ -1,4 +1,30 @@
 class CategoriesController < ApplicationController
+
+
+  
+
+  include ActiveDirect::DirectController
+
+  direct  "TYPO3_Service_ExtDirect_V1_Controller_WorkspaceController",
+    :getStatus => 1,
+    :typo3 => {:len => 2, :formHandler => false},
+    :getUnpublishedNodes => 1
+
+
+  def getUnpublishedNodes
+    render :json => {:data => "geht2 unpublished"}
+  end
+
+
+  def getStatus
+    #render :text => ""
+    render :json => {:name => "geht"}
+  end
+
+  def typo3
+    
+  end
+  
   # GET /categories
   # GET /categories.json
   def index
@@ -6,7 +32,7 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @categories }
+      format.json { render :json => @categories }
     end
   end
 
@@ -17,7 +43,7 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @category }
+      format.json { render :json => @category }
     end
   end
 
@@ -28,7 +54,7 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @category }
+      format.json { render :json => @category }
     end
   end
 
@@ -44,11 +70,11 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       if @category.save
-        format.html { redirect_to @category, notice: 'Category was successfully created.' }
-        format.json { render json: @category, status: :created, location: @category }
+        format.html { redirect_to @category, :notice => 'Category was successfully created.' }
+        format.json { render :json => @category, :status => :created, :location => @category }
       else
-        format.html { render action: "new" }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
+        format.html { render :action => "new" }
+        format.json { render :json => @category.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -60,11 +86,11 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       if @category.update_attributes(params[:category])
-        format.html { redirect_to @category, notice: 'Category was successfully updated.' }
+        format.html { redirect_to @category, :notice => 'Category was successfully updated.' }
         format.json { head :ok }
       else
-        format.html { render action: "edit" }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
+        format.html { render :action => "edit" }
+        format.json { render :json => @category.errors, :status => :unprocessable_entity }
       end
     end
   end

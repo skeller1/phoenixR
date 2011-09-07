@@ -47,7 +47,7 @@
         api: {
           // what's the difference between create and submit'
           //create: App.models.Category.create,
-          submit: App.models.Category.all
+          submit: F3.Category.all
         }
       });
 
@@ -106,7 +106,7 @@
       width: 15
     } ],
     api: {
-      submit: App.models.Category.upload
+      submit: F3.Category.upload
     },
     buttons: [ {
       text: "Submit",
@@ -171,6 +171,7 @@
   <% end %>
 </table>
 
-<br />
+
+<%#= request.env.inspect %>
 
 <%= link_to 'New Category', new_category_path %>

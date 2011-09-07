@@ -60,4 +60,10 @@ PhoenixR::Application.routes.draw do
 
   get 'typo3' => "typo3/backend/backend#index"
 
+
+  #get 'work' => "typo3/service/extdirect/v1/workspace#index"
+
+
+  #match "mike" => "category#getStatus"
+  #match ':controller/:action'
 end

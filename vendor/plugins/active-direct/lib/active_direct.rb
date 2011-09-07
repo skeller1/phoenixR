@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/active_direct/acts_as_direct'
+require File.dirname(__FILE__) + '/active_direct/direct_controller'
 require File.dirname(__FILE__) + '/active_direct/config'
 require File.dirname(__FILE__) + '/active_direct/api'
 require File.dirname(__FILE__) + '/active_direct/router'

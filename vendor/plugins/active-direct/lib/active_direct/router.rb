@@ -1,5 +1,6 @@
 # this is the router of ActiveDirect, implemented as rack middleware
 module ActiveDirect
+
   class Router
     def initialize(app, router_path)
       @app = app
@@ -10,19 +11,16 @@ module ActiveDirect
     def call(env)
       @env = env
       if env["PATH_INFO"].match("^#{@router_path}")
-
-        result= form_post? ? process_form_rpc : process_rpc
+        result= form_post? ? process_form_rpc : process_raw_rpc
 
         [200, { "Content-Type" => "text/plain"}, [result]]
-
       else
         @app.call(@env)
       end
     end
 
-
-    def process_rpc
-      p "started normal raw http rpc"
+    def process_raw_rpc
+      p "started process_raw_rpc"
       resp = []
       get_raw_http.each do |req|
 
@@ -31,85 +29,109 @@ module ActiveDirect
         data = req['data']
         tid = req['tid']
 
-        resp << invoke_method(action, method, data, tid)
+        if Config.has_model?(action)
+          p "model"
+          resp << invoke_model_method(action, method, data, tid)
+        else
+          p "controller"
+          resp << invoke_controller_method(action, method, data, tid)
+        end
+        
       end
 
       resp.to_json
     end
 
-    def process_rpc2
-      p "started normal raw http rpc"
+    def process_form_rpc
+      p "started process_form_rpc"
       resp = []
 
 
-      @post_data.each do |req|
+      @env['rack.request.form_hash'].each do |req|
 
-        action = req['extAction'] || req['action']
-        method = req['extMethod'] || req['method']
-        data = req['data'] || {}
-        tid = req['extTID'] || req['tid']
-
-
-        resp << action
-        resp << method
-        resp << data
-        resp << tid
+        #action = req['extAction']
+        #method = req['extMethod']
+        #data = req['data']
+        #tid = req['extTID']
 
 
-        #resp << invoke_method(action, method, data, tid)
+        resp << req
+
       end
-
-      #form_post must implemented by form_and_upload?
-      if form_post?
-        "<html><body><textarea>#{resp.to_json}</textarea></body></html>"
-      else
-        resp.to_json
-      end
+      resp.to_json
+      #"<html><body><textarea>#{resp.to_json}</textarea></body></html>"
     end
 
-    def invoke_method(action, method, parameters, tid)
+    def invoke_model_method(action, method, parameters, tid)
       result = {
         'type'    =>    'rpc',
         'tid'     =>    tid,
         'action'  =>    action,
         'method'  =>    method
       }
-      if(!Config.has_model?(action))
-        raise "Invalid Model."
-      end
 
-      if(!Config.has_method?(action, method))
-        raise "Invalid method:#{method} called on model:#{action}."
+      unless Config.has_method?(action, method)
+        raise "Invalid method:#{method} called on action:#{action}."
       end
       unless parameters.nil?
-        return_val = action.constantize.send(method, *normalize_params_for(action,parameters))
+        p parameters.class
+        return_val = action.constantize.send(method)
+        #return_val = action.constantize.send(method, *normalize_params_for(action,parameters))
       else
         return_val = action.constantize.send(method)
       end
       result['result'] = return_val.nil? ?  "" : return_val
     rescue => e
-      Rails.logger.error result['type'] = 'exception'
-      Rails.logger.error result['message'] = e.message
-      Rails.logger.error result['where'] = e.backtrace.join("\n")
+      if Rails.env.development?
+        Rails.logger.error result['type'] = 'exception'
+        Rails.logger.error result['message'] = e.message
+        Rails.logger.error result['where'] = e.backtrace.join("\n")
+      end
     ensure
       return result
     end
 
+    def invoke_controller_method(action, method, parameters, tid)
+      
+      result = {
+        'type'    =>    'rpc',
+        'tid'     =>    tid,
+        'action'  =>    action,
+        'method'  =>    method,
+        'result' => ""
+      }
+
+
+      controller_request = @env.dup
+
+      controller = Config.callable_controller_name(action)
+
+      status,headers,response=controller.constantize.action(method).call(controller_request)
+            
+      result['result'] = response.body ? response.body : ""
+
+      result
+    rescue => e
+      if Rails.env.development?
+        Rails.logger.error result['type'] = 'exception'
+        Rails.logger.error result['message'] = e.message
+        Rails.logger.error result['where'] = e.backtrace.join("\n")
+      end
+    ensure
+      result
+    end
+
     private
 
+    #todo make params
     def normalize_params_for(action, params)
-      #if raw_post?
-			#	params = params.map {|p| Hash === p ? p.symbolize_keys : p }
-      #  return params
-      #else
-      #  normalized_params = params[model.downcase]
-      #  normalized_params.each do |k, v|
-      #   if v.is_a?(Hash) && v.include?('tempfile') && v['tempfile'].is_a?(Tempfile)
-      #      normalized_params[k] = v['tempfile']
-      #    end
-      #  end
-      #  [normalized_params.symbolize_keys]
-      #end
+
+
+      unless form_post?
+        params
+      end
+
+      
     end
 
   
