@@ -70,6 +70,6 @@ end
 if defined?(Rails) && Rails.configuration
   Rails.configuration.after_initialize do
     ActiveDirect::Initializer.load_models
-    #ActiveDirect::Initializer.load_controllers
+    ActiveDirect::Initializer.load_controllers
   end
 end

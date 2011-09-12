@@ -64,6 +64,7 @@ PhoenixR::Application.routes.draw do
   #get 'work' => "typo3/service/extdirect/v1/workspace#index"
 
 
-  #match "mike" => "category#getStatus"
-  #match ':controller/:action'
+  constraints(ActiveDirect::AllowedControllers) do
+    match ':controller/:action/:format'
+  end
 end
