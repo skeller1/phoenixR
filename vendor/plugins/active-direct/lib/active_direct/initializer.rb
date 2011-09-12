@@ -28,8 +28,9 @@ module ActiveDirect
     end
 
      def self.load_controllers
+    
       return if defined?(Rails) && Rails.configuration.cache_classes
-
+        p "Load controllers must be implemented"
       self.controller_directories.each do |base|
         path = "#{Rails.root}/#{base}/**/*.rb"
         Dir[path].each do |file|

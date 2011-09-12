@@ -14,7 +14,6 @@ module ActiveDirect
         result= form_post? ? process_form_rpc : process_raw_rpc
         [200, { "Content-Type" => "text/plain"}, [result]]
       else
-        #[200, { "Content-Type" => "text/plain"}, [@env.inspect]]
         @app.call(@env)
       end
     end
@@ -102,24 +101,35 @@ module ActiveDirect
       }
 
 
-      controller_request = @env.dup
       request_env = @env.dup
       #controller_request['REQUEST_METHOD']="GET"
       #controller_request["action_dispatch.request.format"]="application/json"
 
-      request_env["PATH_INFO"] = "/projects/getStatus/json"
-      request_env["REQUEST_URI"] = "/projects/getStatus/json"
+      #request_env["PATH_INFO"] = "/projects/getStatus/json"
+      #request_env["REQUEST_URI"] = "/projects/getStatus/json"
+      #begin
+      # status,headers,response=@app.call(request_env)
+      # result['result'] = response ? response.body : ""
+      #rescue
+      #  result['result'] = "nix da"
+      #end
+      ##@app
+
+      controller_path = Config.get_controller_path(action)
+
+      request_env["PATH_INFO"] = "#{controller_path}-#{method}/json"
+      request_env["REQUEST_URI"] = "#{controller_path}-#{method}/json"
+
+
+
+      #status,headers,response=controller.constantize.action(method).call(controller_request)
+
       begin
        status,headers,response=@app.call(request_env)
        result['result'] = response ? response.body : ""
       rescue
         result['result'] = "nix da"
       end
-      ##@app
-      #controller = Config.callable_controller_name(action)
-
-      #status,headers,response=controller.constantize.action(method).call(controller_request)
-            
       
 
       result

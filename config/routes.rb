@@ -60,11 +60,11 @@ PhoenixR::Application.routes.draw do
 
   get 'typo3' => "typo3/backend/backend#index"
 
+  root :to => "typo3/backend/backend#index"
 
-  #get 'work' => "typo3/service/extdirect/v1/workspace#index"
-
+  get '/typo3/service/rest/v1/node/:user/sites/:site/(.:format)' => 'typo3/service/rest/v1/nodes#show'
 
   constraints(ActiveDirect::AllowedControllers) do
-    match ':controller/:action/:format'
+    match ':controller-:action/:format'
   end
 end

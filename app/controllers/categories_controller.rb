@@ -1,26 +1,6 @@
 class CategoriesController < ApplicationController
 
 
-  include ActiveDirect::DirectController
-
-  direct  "TYPO3_Service_ExtDirect_V1_Controller_WorkspaceController",
-    :getStatus => 1,
-    :getUnpublishedNodes => 1
-
-  #respond_to :json, :only => :getStatus
-
-
-  respond_to :json
-
-
-  def getStatus
-    @categories=Category.all
-    #respond_to do |format|
-    #  format.html { render :text => "#{format.inspect}" }
-    #  format.json { render :json => format }
-    #end
-    render :json => request.env.inspect
-  end
 
   # GET /categories
   # GET /categories.json

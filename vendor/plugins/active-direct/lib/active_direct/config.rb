@@ -2,7 +2,7 @@ module ActiveDirect
   class Config
     cattr_accessor :model_config
     cattr_accessor :controller_config
-    cattr_accessor :controller_name
+    cattr_accessor :controller_path
     class << self
       def model_config
         @@model_config ||= Hash.new { |hash, key| hash[key] = [] }
@@ -12,8 +12,8 @@ module ActiveDirect
         @@controller_config ||= Hash.new { |hash, key| hash[key] = [] }
       end
 
-      def controller_name
-        @@controller_name ||= {}
+      def controller_path
+        @@controller_path ||= {}
       end
 
       def has_model?(action)
@@ -29,11 +29,11 @@ module ActiveDirect
       end
 
       def other_controller_name?(action)
-        controller_name[action]
+        controller_path[action]
       end
 
-      def callable_controller_name(action)
-        controller_name[action]
+      def get_controller_path(action)
+        controller_path[action]
       end
 
       private

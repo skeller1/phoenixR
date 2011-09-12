@@ -3,7 +3,7 @@ class Typo3::Backend::BackendController < ApplicationController
 layout 'backend'
 
 def index
-  @workspaceName = 'user-'
+  @workspaceName = 'user-skeller1'
 end
 
 end

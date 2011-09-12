@@ -9,11 +9,12 @@ module ActiveDirect
     module ClassMethods
         
       def direct(name=false, direct_methods={})
-
+        p self.controller_name
+        p self.controller_path
         if name
-          Config.controller_name[name]=self.to_s
+          Config.controller_path[name]=self.controller_path
         else
-          Config.controller_name[self.to_s]=self.to_s
+          Config.controller_path[self.to_s]=self.controller_path
         end
 
 
