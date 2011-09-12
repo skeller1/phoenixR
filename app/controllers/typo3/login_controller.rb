@@ -10,13 +10,18 @@ class Typo3::LoginController < ApplicationController
   include ActiveDirect::DirectController
 
   direct  "TYPO3_Controller_LoginController",
-    :show => 1
+    :show => 1,
+    :logout => 1
 
 
 
   def show
     @skeller = Time.now
     respond_with (@skeller)
+  end
+
+  def logout
+    
   end
 
 end
