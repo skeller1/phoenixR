@@ -18,9 +18,9 @@ class Typo3::Service::Extdirect::V1::NodeController < ApplicationController
   end
 
   def getChildNodes
-    render :json => Time.now
+    #render :json => Time.now
     #@unpublished=0
-    #respond_with(@unpublished)
+    #respond_with(@unpublished
   end
 
 end
