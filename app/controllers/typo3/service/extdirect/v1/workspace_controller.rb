@@ -1,5 +1,6 @@
 class Typo3::Service::Extdirect::V1::WorkspaceController < ApplicationController
 
+  layout false
 
   skip_before_filter :verify_authenticity_token
 
@@ -14,23 +15,14 @@ class Typo3::Service::Extdirect::V1::WorkspaceController < ApplicationController
 
 
   def getUnpublishedNodes
-    @unpublished=0
+    @unpublished=Random.rand(99)
     respond_with(@unpublished)
   end
 
 
   def getStatus
-    @unpublished=0
-    @mike = {
-      :data => {
-        :name => "user-skeller1",
-        :unpublishedNodesCount => @unpublished
-      },
-      :success => true
-    }
-    #
-    render :json => @mike.to_json
-    #respond_with(@unpublished)
+    @unpublished=Random.rand(99)
+    respond_with(@unpublished)
   end
 
 end

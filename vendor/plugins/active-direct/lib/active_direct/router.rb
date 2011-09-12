@@ -12,7 +12,7 @@ module ActiveDirect
       @env = env
       if env["PATH_INFO"].match("^#{@router_path}")
         result= form_post? ? process_form_rpc : process_raw_rpc
-        [200, { "Content-Type" => "text/plain"}, [result]]
+        [200, { "Content-Type" => "text/javascript"}, [result]]
       else
         @app.call(@env)
       end
@@ -38,6 +38,7 @@ module ActiveDirect
         
       end
 
+      
       resp.to_json
     end
 
@@ -124,23 +125,24 @@ module ActiveDirect
 
       #status,headers,response=controller.constantize.action(method).call(controller_request)
 
-      begin
+      #begin
        status,headers,response=@app.call(request_env)
        result['result'] = response ? response.body : ""
-      rescue
-        result['result'] = "nix da"
-      end
+       result['result'] = ActiveSupport::JSON.decode(result['result'])
+      #rescue
+      #  result['result'] = "nix da"
+      #end
       
 
       result
-    #rescue => e
-    #  if Rails.env.development?
-    #    Rails.logger.error result['type'] = 'exception'
-    #    Rails.logger.error result['message'] = e.message
-    #    Rails.logger.error result['where'] = e.backtrace.join("\n")
-    #  end
-    #ensure
-    #  result
+    rescue => e
+      if Rails.env.development?
+        Rails.logger.error result['type'] = 'exception'
+        Rails.logger.error result['message'] = e.message
+        Rails.logger.error result['where'] = e.backtrace.join("\n")
+      end
+    ensure
+      result
     end
 
     private

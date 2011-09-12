@@ -1,7 +1,7 @@
-{
- :data => {
+<%= raw({
+  :data => {
     :name => "user-skeller1",
-    :unpublishedNodesCount => <%= @unpublished %>
+    :unpublishedNodesCount => @unpublished
   },
   :success => true
-}
+}.to_json) %>
