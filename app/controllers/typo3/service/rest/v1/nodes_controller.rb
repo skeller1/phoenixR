@@ -1,5 +1,7 @@
 class Typo3::Service::Rest::V1::NodesController < ApplicationController
 
+  layout false
+
  #skip_before_filter :verify_authenticity_token
 
   #include ActiveDirect::DirectController
@@ -13,7 +15,7 @@ class Typo3::Service::Rest::V1::NodesController < ApplicationController
 
 
   def show
-    render :text => "Hallo"
+    
   end
 
   
