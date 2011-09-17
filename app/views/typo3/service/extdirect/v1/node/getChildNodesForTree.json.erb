@@ -1,5 +1,7 @@
-<% @trees = {:data => [], :success => true} %>
-<% Random.rand(5).times do %>
+<% @trees = {:data => [], :success => true}
+  r = Random.new
+%>
+<% r.rand(3..7).times do %>
   <%  @trees[:data].push({:id => "/sites/phoenixdemotypo3org/homepage/page#{SecureRandom.hex(33)}",
       :text => "Page#{Random.rand(9)}",
       :leaf => false,
