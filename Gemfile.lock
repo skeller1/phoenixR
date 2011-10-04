@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/skeller1/extr.git
-  revision: 61fd180b20c7ba609682a62e4028cddb1b997314
+  revision: 82203be2374e454b5497255edd478cdd66d2dbcf
   specs:
     extr (0.0.1)
       rails (~> 3.1.0)
