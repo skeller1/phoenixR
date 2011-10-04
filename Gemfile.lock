@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/skeller1/extr.git
+  revision: f8e9f9ddcac5ce709c43255da70fb0c43d55e027
+  specs:
+    extr (0.0.1)
+      rails (~> 3.1.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -111,6 +118,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.1.0)
+  extr!
   jquery-rails
   pg
   rails (= 3.1.0)
