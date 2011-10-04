@@ -63,8 +63,5 @@ PhoenixR::Application.routes.draw do
   root :to => "typo3/backend/backend#index"
 
   get '/typo3/service/rest/v1/node/:user/sites/:site/(.:format)' => 'typo3/service/rest/v1/nodes#show'
-
-  constraints(ActiveDirect::AllowedControllers) do
-    match ':controller-:action/:format'
-  end
+ 
 end

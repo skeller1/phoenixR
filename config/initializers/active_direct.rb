@@ -1,1 +1,0 @@
-ActiveDirect::Api::RAILS_ENV= Rails.env

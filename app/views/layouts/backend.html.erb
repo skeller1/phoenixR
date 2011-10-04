@@ -5,13 +5,10 @@
     <meta name="generator" content="phoenixR, Stephan Keller" />
     <title>phoenixR Backend</title>
     <%= csrf_meta_tags %>
-    <%= base_tag %>
+    <%= ext_base_tag %>
     <%= ext %>
-    <%= javascript_include_tag "/direct_api" %>
+    <%= ext_direct_provider "F3" %>
 
-    <script type="text/javascript">
-      Ext.Direct.addProvider(REMOTING_API);
-    </script>
 
     <%= javascript_include_tag "typo3/backend/backend" %>
     <script type="text/javascript">

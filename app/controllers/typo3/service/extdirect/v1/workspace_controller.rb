@@ -4,7 +4,7 @@ class Typo3::Service::Extdirect::V1::WorkspaceController < ApplicationController
 
   skip_before_filter :verify_authenticity_token
 
-  include ActiveDirect::DirectController
+  include Extr::DirectController
 
   direct  "TYPO3_Service_ExtDirect_V1_Controller_WorkspaceController",
     :getStatus => 1,

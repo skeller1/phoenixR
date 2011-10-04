@@ -41,7 +41,5 @@ module PhoenixR
 
     # Enable the asset pipeline
     config.assets.enabled = true
-    config.middleware.use 'ActiveDirect::Router', '/direct_router'
-    config.middleware.use 'ActiveDirect::Api', '/direct_api', '/direct_router', "F3"
   end
 end

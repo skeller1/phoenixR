@@ -7,7 +7,7 @@ class Typo3::LoginController < ApplicationController
   respond_to :json
 
 
-  include ActiveDirect::DirectController
+  include Extr::DirectController
 
   direct  "TYPO3_Controller_LoginController",
     :show => 1,
