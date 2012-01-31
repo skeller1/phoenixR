@@ -41,4 +41,5 @@ group :production do
   gem 'pg'
 end
 
-gem 'extr', :git => "git://github.com/skeller1/extr.git"
+gem 'extr', :git => "git://github.com/skeller1/extr.git", :branch => "oop"
+

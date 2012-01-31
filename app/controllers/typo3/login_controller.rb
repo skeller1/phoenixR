@@ -1,17 +1,10 @@
 class Typo3::LoginController < ApplicationController
 
 
-  skip_before_filter :verify_authenticity_token
-
-  
   respond_to :json
 
 
-  include Extr::DirectController
-
-  direct  "TYPO3_Controller_LoginController",
-    :show => 1,
-    :logout => 1
+  extdirect  :name => "TYPO3_Controller_LoginController", :methods =>{:show => 1, :logout => 1}
 
 
 
@@ -21,7 +14,8 @@ class Typo3::LoginController < ApplicationController
   end
 
   def logout
-    
+
   end
 
 end
+
