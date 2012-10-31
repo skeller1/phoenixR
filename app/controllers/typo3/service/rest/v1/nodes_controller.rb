@@ -2,12 +2,6 @@ class Typo3::Service::Rest::V1::NodesController < ApplicationController
 
   layout false
 
-
-  extdirect :name => "TYPO3_Service_ExtDirect_V1_NodesController", :methods => {
-    :getStatus => 1,
-    :getUnpublishedNodes => 1 }
-
-
   respond_to :json
 
 
