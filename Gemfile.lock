@@ -114,7 +114,7 @@ DEPENDENCIES
   extr
   jquery-rails
   pg
-  rails (= 3.2.8)
+  rails (>= 3.2.8)
   sass-rails
   sqlite3
   therubyracer-heroku
