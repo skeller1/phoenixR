@@ -1,15 +1,16 @@
-Typo3_Service_Extdirect_V1_WorkspaceController:
- name: TYPO3_Service_ExtDirect_V1_Controller_WorkspaceController
- methods:
-  getStatus: 1
-  getUnpublishedNodes: 1
-Typo3_Service_Extdirect_V1_NodeController:
- name: TYPO3_Service_ExtDirect_V1_Controller_NodeController
- methods:
-  getChildNodesForTree: 2
-  getChildNodes: 2
-Typo3_LoginController:
- name: TYPO3_Controller_LoginController
- methods:
-  show: 0
+F3:
+ Typo3_Service_Extdirect_V1_WorkspaceController:
+  name: TYPO3_Service_ExtDirect_V1_Controller_WorkspaceController
+  methods:
+   getStatus: 1
+   getUnpublishedNodes: 1
+ Typo3_Service_Extdirect_V1_NodeController:
+  name: TYPO3_Service_ExtDirect_V1_Controller_NodeController
+  methods:
+   getChildNodesForTree: 2
+   getChildNodes: 2
+ Typo3_LoginController:
+  name: TYPO3_Controller_LoginController
+  methods:
+   show: 0
 
