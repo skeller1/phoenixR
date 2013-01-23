@@ -39,7 +39,7 @@ end
 group :production do
   gem 'therubyracer-heroku'
   gem 'pg'
+  gem 'thin'
 end
 
 gem 'extr'
-
