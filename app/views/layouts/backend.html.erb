@@ -8,16 +8,14 @@
     <%= ext_base_tag %>
     <%= ext %>
     <%= ext_direct_provider %>
-
-
     <%= javascript_include_tag "typo3/backend/backend" %>
-    <script type="text/javascript">
+    <%= javascript_tag do %>
       F3.TYPO3.Configuration.Application.workspaceName = 'user-skeller1';
       F3.TYPO3.Configuration.Application.siteName = 'TYPO3 Phoenix Demo Site';
       F3.TYPO3.Configuration.Application.siteNodePath = '/sites/phoenixdemotypo3org';
       F3.TYPO3.Configuration.Application.contextLocale = 'mul';
       F3.TYPO3.Configuration.Application.version = '5.0.0 Sprint 6';
-    </script>
+    <% end %>
     <%= stylesheet_link_tag "typo3/backend/backend" %>
   </head>
   <body>
