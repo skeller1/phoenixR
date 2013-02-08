@@ -17,14 +17,13 @@ module ApplicationHelper
         output += javascript_include_tag "JavaScript/ext-all.js"
       end
 
-      output += javascript_tag do
+      output += javascript_tag(
         <<HERE
         Ext.BLANK_IMAGE_URL = '#{asset_path("images/default/s.gif")}';
         Ext.FlashComponent.EXPRESS_INSTALL_URL = '#{asset_path("Flash/expressinstall.swf")}';
         Ext.chart.Chart.CHART_URL = '#{asset_path("Flash/charts.swf")}';
 HERE
-
-      end
+      )
 
     return output.html_safe
   end
