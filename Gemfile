@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '>=3.2.12'
+gem 'rails', '>= 4.2.0'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -13,12 +13,12 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
+  gem 'sass-rails', '>= 4.0.0'
+  gem 'coffee-rails', '>= 4.0.0'
   gem 'uglifier'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', '>= 2.2.0'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -39,7 +39,7 @@ end
 group :production do
   gem 'therubyracer-heroku'
   gem 'pg'
-  gem 'thin'
+  gem 'thin', '>= 1.5.0'
 end
 
-gem 'extr'
+gem 'extr', '>= 1.0.2'
